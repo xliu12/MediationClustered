@@ -25,14 +25,19 @@ library(fastDummies)
 
 # cluster indicator
 Sname <- "school"
+
 # individual-level covariates
 Xnames <- colnames(data_example)[grep("^X", colnames(data_example))]
+
 # cluster-level covariates
 Wnames <- colnames(data_example)[grep("^W", colnames(data_example))]
+
 # treatment variable
 Aname <- colnames(data_example)[grep("^A_", colnames(data_example))]
+
 # mediators
 Mnames <- colnames(data_example)[grep("^M_", colnames(data_example))]
+
 # outcome variable
 Yname <- colnames(data_example)[grep("^Y_", colnames(data_example))]
 
