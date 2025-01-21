@@ -35,7 +35,7 @@ ClusterMed(
 
 \item{Yname}{a character string of the name of the column in "data" that corresponds to an outcome variable (Y).}
 
-\item{learners_a}{a character vector specifying estimation methods for the model of the treatment For "learners_a", "learners_m", and "learners_y", currently supported options include methods in the "SuperLearner" package (<https://cran.r-project.org/package=SuperLearner>), available via the "SuperLearner::listWrappers()".}
+\item{learners_a}{a character vector specifying estimation methods for the model of the treatment For "learners_a", "learners_m", and "learners_y", currently supported options include methods in R package \code{SuperLearner} (<https://cran.r-project.org/package=SuperLearner>), available via the \code{SuperLearner::listWrappers()}.}
 
 \item{learners_m}{a character vector specifying estimation methods for the models of the mediators.}
 
@@ -46,9 +46,53 @@ ClusterMed(
 \item{num_folds}{the number of folds to use for the cross-fitting procedure.}
 }
 \value{
-A data frame containing the results (estimates and 0.95 confidence intervals) for each of the cluster-average and individual-average causal mediation effects (i.e., IDE, IIE_M1, IIE_M2, IIE_mu, including the cluster-average and individual-average versions).
-IDE, IIE_M1, IIE_M2, and IIE_mu are, respectively, the interventional direct effect, indirect effect via M_1 (the first mediator in "Mnames"), indirect effect via M_2 (the second mediator in "Mnames"), and indirect effect due to the mediators' mutual dependence.
+A data frame containing the estimates, standard error estimates, and 0.95 confidence intervals for the causal mediation effects (including the cluster-average and the individual-average versions). Specifically, the following effects are estimated:
+
+\item{IDE}{The interventional direct effect.}
+\item{IIE_M1}{The interventional indirect effect via mediator M1 (M1 is the first mediator in \code{Mnames}).}
+\item{IIE_M2}{The interventional indirect effect via mediator M2 (M2 is the second mediator in \code{Mnames}).}
+\item{IIE_mu}{The interventional indirect effect due to the mediators' mutual dependence.}
 }
 \description{
 Estimating Causal Mediation Effects in Multiple-Mediator Analyses with Clustered Data
+}
+\examples{
+# example code
+data("data_example")
+
+library(SuperLearner)
+library(origami)
+library(glue)
+library(tidyverse)
+library(fastDummies)
+
+# cluster indicator
+Sname <- "school"
+# individual-level covariates
+Xnames <- colnames(data_example)[grep("^X", colnames(data_example))]
+# cluster-level covariates
+Wnames <- colnames(data_example)[grep("^W", colnames(data_example))]
+# treatment variable
+Aname <- colnames(data_example)[grep("^A_", colnames(data_example))]
+# mediators
+Mnames <- colnames(data_example)[grep("^M_", colnames(data_example))]
+# outcome variable
+Yname <- colnames(data_example)[grep("^Y_", colnames(data_example))]
+
+# estimation methods for models of the treatment, mediators, and outcome chosen from R package \code{SuperLearner}
+learners_a <- learners_m <- learners_y <- c("SL.gam", "SL.glm", "SL.nnet")
+
+out <- ClusterMed(data = data_example,
+                 Sname = Sname,
+                 Wnames = Wnames,
+                 Xnames = Xnames,
+                 Aname = Aname,
+                 Mnames = Mnames,
+                 Yname = Yname,
+                 learners_a = learners_a,
+                 learners_m = learners_m,
+                 learners_y = learners_y
+)
+
+out
 }
