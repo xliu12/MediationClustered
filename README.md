@@ -39,7 +39,7 @@ Yname <- colnames(data_example)[grep("^Y_", colnames(data_example))]
 # estimation methods for models of the treatment, mediators, and outcome chosen from R package \code{SuperLearner}
 learners_a <- learners_m <- learners_y <- c("SL.gam", "SL.glm", "SL.nnet")
 
-out <- ClusterMed(data = data_example,
+out <- MediationClustered::ClusterMed(data = data_example,
                  Sname = Sname,
                  Wnames = Wnames,
                  Xnames = Xnames,
