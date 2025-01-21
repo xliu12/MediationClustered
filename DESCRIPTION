@@ -1,0 +1,24 @@
+Package: MediationClustered
+Type: Package
+Title: Estimating Causal Mediation Effects in Multiple-Mediator Analyses with Clustered Data
+Version: 0.1.0
+Author: Xiao Liu
+Maintainer: Xiao Liu <xiao.liu@austin.utexas.edu>
+Description: Estimating the interventional direct and indirect effects for multiple mediators with clustered data, using the multiply robust method incorporating machine learning approaches. Currently support two dichotomous mediators. The effects include the individual-average and cluster-average effects.
+Imports: 
+    tidyverse,
+    glue,
+    origami,
+    fastDummies,
+    SuperLearner,
+    lme4,
+    mvtnorm
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr, rmarkdown
+RoxygenNote: 7.3.1
